@@ -10,7 +10,7 @@ Build a Slack-integrated Claude agent that searches for commercial real estate l
 
 **What we're looking for:**
 - Commercial/retail spaces in West Village or Tribeca
-- Under 2000 sq ft
+- Under 3000 sq ft
 - High ceilings 12 ft+
 - Ventilation-friendly (critical for sauna build-out)
 - Street-level or accessible entrance
