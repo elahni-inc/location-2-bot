@@ -1,9 +1,11 @@
 import { App } from '@slack/bolt';
+import { WebClient } from '@slack/web-api';
 import { config, validateConfig } from './config';
 import { ClaudeHandler } from './claude-handler';
 import { SlackHandler } from './slack-handler';
 import { McpManager } from './mcp-manager';
 import { Logger } from './logger';
+import { ScheduledSearch } from './scheduled-search';
 
 const logger = new Logger('Main');
 
@@ -49,6 +51,27 @@ async function start() {
       mcpServers: mcpConfig ? Object.keys(mcpConfig.mcpServers).length : 0,
       mcpServerNames: mcpConfig ? Object.keys(mcpConfig.mcpServers) : [],
     });
+
+    // Start scheduled search if configured
+    const searchChannelId = process.env.SEARCH_CHANNEL_ID;
+    const searchIntervalHours = parseInt(process.env.SEARCH_INTERVAL_HOURS || '6', 10);
+
+    if (searchChannelId && searchChannelId !== 'your-channel-id') {
+      const slackClient = new WebClient(config.slack.botToken);
+      const scheduledSearch = new ScheduledSearch({
+        slackClient,
+        channelId: searchChannelId,
+        searchIntervalHours,
+      });
+
+      scheduledSearch.start();
+      logger.info('📅 Scheduled search enabled', {
+        channelId: searchChannelId,
+        intervalHours: searchIntervalHours,
+      });
+    } else {
+      logger.info('📅 Scheduled search disabled (no SEARCH_CHANNEL_ID configured)');
+    }
   } catch (error) {
     logger.error('Failed to start the bot', error);
     process.exit(1);

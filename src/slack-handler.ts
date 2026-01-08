@@ -8,6 +8,7 @@ import { TodoManager, Todo } from './todo-manager';
 import { McpManager } from './mcp-manager';
 import { permissionServer } from './permission-mcp-server';
 import { config } from './config';
+import { wrapWithContext } from './system-prompt';
 
 interface MessageEvent {
   user: string;
@@ -215,10 +216,13 @@ export class SlackHandler {
     let statusMessageTs: string | undefined;
 
     try {
-      // Prepare the prompt with file attachments
-      const finalPrompt = processedFiles.length > 0 
+      // Prepare the prompt with file attachments and system context
+      const rawPrompt = processedFiles.length > 0
         ? await this.fileHandler.formatFilePrompt(processedFiles, text || '')
         : text || '';
+
+      // Wrap with Elahni real estate search context
+      const finalPrompt = wrapWithContext(rawPrompt);
 
       this.logger.info('Sending query to Claude Code SDK', { 
         prompt: finalPrompt.substring(0, 200) + (finalPrompt.length > 200 ? '...' : ''), 

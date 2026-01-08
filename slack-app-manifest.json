@@ -1,9 +1,9 @@
 {
   "display_information": {
-    "name": "Claude Code Bot",
-    "description": "AI-powered coding assistant using Claude Code SDK",
-    "background_color": "#4A154B",
-    "long_description": "This bot integrates Claude Code SDK with Slack to provide AI-powered coding assistance directly in your workspace. It supports streaming responses, maintains conversation context, and can help with code reviews, debugging, and general programming questions."
+    "name": "Elahni Real Estate Bot",
+    "description": "Searches for Location 2 commercial spaces in West Village & Tribeca",
+    "background_color": "#1a1a2e",
+    "long_description": "This bot searches commercial real estate listings on LoopNet, Crexi, and other platforms to find spaces matching Elahni's criteria for a second location. It looks for retail/commercial spaces under 2000 sq ft with high ceilings, ventilation potential, and basement access in West Village and Tribeca."
   },
   "features": {
     "app_home": {
@@ -12,7 +12,7 @@
       "messages_tab_read_only_enabled": false
     },
     "bot_user": {
-      "display_name": "Claude Code",
+      "display_name": "elahni-realestate",
       "always_online": true
     }
   },
@@ -23,12 +23,15 @@
         "channels:history",
         "chat:write",
         "chat:write.public",
+        "groups:history",
         "im:history",
         "im:read",
         "im:write",
+        "mpim:history",
         "users:read",
         "reactions:read",
-        "reactions:write"
+        "reactions:write",
+        "files:read"
       ]
     }
   },
@@ -41,7 +44,7 @@
       ]
     },
     "interactivity": {
-      "is_enabled": false
+      "is_enabled": true
     },
     "org_deploy_enabled": false,
     "socket_mode_enabled": true,

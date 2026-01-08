@@ -42,6 +42,8 @@ export class ClaudeHandler {
     const options: any = {
       outputFormat: 'stream-json',
       permissionMode: slackContext ? 'default' : 'bypassPermissions',
+      // Enable WebSearch for real estate listing searches
+      allowedTools: ['WebSearch', 'WebFetch', 'Read', 'Glob', 'Grep'],
     };
 
     // Add permission prompt tool if we have Slack context
@@ -61,8 +63,8 @@ export class ClaudeHandler {
     if (slackContext) {
       const permissionServer = {
         'permission-prompt': {
-          command: 'npx',
-          args: ['tsx', '/Users/marcelpociot/Experiments/claude-code-slack/src/permission-mcp-server.ts'],
+          command: 'node',
+          args: [`${__dirname}/permission-server-start.js`],
           env: {
             SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN,
             SLACK_CONTEXT: JSON.stringify(slackContext)
@@ -85,9 +87,9 @@ export class ClaudeHandler {
       if (slackContext) {
         defaultMcpTools.push('mcp__permission-prompt');
       }
-      if (defaultMcpTools.length > 0) {
-        options.allowedTools = defaultMcpTools;
-      }
+      // Merge with our base allowed tools (WebSearch, etc.)
+      const baseTools = options.allowedTools || [];
+      options.allowedTools = [...baseTools, ...defaultMcpTools];
       
       this.logger.debug('Added MCP configuration to options', {
         serverCount: Object.keys(options.mcpServers).length,
