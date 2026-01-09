@@ -8,12 +8,17 @@ RUN npm install -g @anthropic-ai/claude-code
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies (including devDependencies for build)
+RUN npm ci
 
-# Copy source and build
+# Copy source
 COPY . .
+
+# Build TypeScript
 RUN npm run build
+
+# Remove devDependencies after build to slim down image
+RUN npm prune --production
 
 # Run the bot
 CMD ["node", "dist/index.js"]
