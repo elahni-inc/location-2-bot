@@ -122,11 +122,24 @@ export class ScheduledSearch {
 
       logger.info('Scheduled search completed', { resultLength: result.length });
     } catch (error) {
-      logger.error('Scheduled search failed', error);
+      const err = error as Error;
+      logger.error('Scheduled search failed', {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      });
+
+      // Send more detailed error to Slack for debugging
+      let errorDetails = err.message;
+      if (err.stack) {
+        // Get first 2 lines of stack trace
+        const stackLines = err.stack.split('\n').slice(0, 3).join('\n');
+        errorDetails += `\n\`\`\`${stackLines}\`\`\``;
+      }
 
       await this.config.slackClient.chat.postMessage({
         channel: this.config.channelId,
-        text: `❌ *Search failed:* ${(error as Error).message}`,
+        text: `❌ *Search failed:* ${errorDetails}`,
       });
     }
 

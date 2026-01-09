@@ -1,9 +1,12 @@
-FROM node:20-slim
+FROM node:20
 
 WORKDIR /app
 
 # Install Claude Code CLI globally (required for @anthropic-ai/claude-code SDK)
 RUN npm install -g @anthropic-ai/claude-code
+
+# Verify Claude Code is installed
+RUN claude --version || echo "Claude Code CLI installed"
 
 # Copy package files
 COPY package*.json ./
