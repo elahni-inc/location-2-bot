@@ -15,31 +15,105 @@ const SEARCH_PROMPT = `${SYSTEM_PROMPT}
 
 ---
 
-TASK: Search for commercial real estate listings and return ONLY listings with actual URLs.
+TASK
+Search for commercial real estate listings suitable for a wellness / sauna concept (Elahni) expansion in Manhattan.
 
-Search LoopNet, Crexi, and commercial listing sites for retail spaces in West Village, Tribeca, Nolita, NoHo, Meatpacking, and SoHo (Manhattan).
-
-CRITICAL REQUIREMENTS:
-- ONLY include listings where you have the ACTUAL URL to the listing page
-- DO NOT make up or guess URLs
-- If you cannot find a direct link, do not include that listing
-
-For each listing, format EXACTLY like this (use plain text, no markdown):
+The goal is to identify real, verifiable opportunities and surface promising leads — not to fabricate completeness.
 
 ---
-📍 [Full Street Address]
-🔗 [Full URL to listing - REQUIRED]
-📐 Size: [X] sq ft
-💰 Rent: $[X]/month ($[X]/sq ft)
-✨ Features: [list key features]
-⭐ Why it fits: [1 sentence on sauna/wellness potential]
+
+SEARCH STRATEGY (CRITICAL)
+
+Do not attempt to browse listing platforms directly.
+
+Instead, use Google-style site-specific searches to surface indexed listing pages and broker posts.
+
+Run variations of:
+  - site:loopnet.com retail [neighborhood] Manhattan lease
+  - site:crexi.com [neighborhood] NYC retail space
+  - site:commercialcafe.com [neighborhood] Manhattan
+  - site:42floors.com [neighborhood] New York retail
+  - site:cityfeet.com Manhattan [neighborhood] retail
+  - [neighborhood] Manhattan retail space for lease 2024
+  - [neighborhood] commercial space basement former restaurant
+
+Prioritize broker-hosted pages and publicly indexable listings over gated platform results.
+
 ---
 
-Search for 3-5 listings maximum. Quality over quantity - only include listings with verified URLs.
+TARGET NEIGHBORHOODS
 
-Prioritize listings mentioning: basement, high ceilings, ventilation, former restaurant/bar space.
+Search each independently:
+  - West Village (ZIP 10014)
+  - Tribeca (10007, 10013)
+  - SoHo / NoHo (10012)
+  - Nolita (10012)
+  - Meatpacking District (10014)
+  - Backup if inventory is thin: Lower East Side (10002)
 
-BUDGET: Max $15,000/month - skip anything above this.`;
+---
+
+SPACE & BUDGET REQUIREMENTS
+  - Ideal size: 1000–2500 sq ft
+  - Budget: ≤ $17,000/month
+  - If rent is listed as $/SF/year → convert to monthly
+  - If rent is "upon request" → include but mark clearly
+  - Must-have: Ground floor and/or basement access
+
+Strong positive signals (note if present):
+  - Basement or lower-level component
+  - 11'+ ceilings
+  - Existing ventilation or HVAC
+  - Former restaurant, bar, spa, gym, or fitness use
+  - Rear yard or outdoor access
+  - Existing plumbing / water lines
+
+---
+
+OUTPUT RULES (IMPORTANT)
+  - Do NOT fabricate URLs, rents, sizes, or features
+  - Include listings with partial information if they appear promising
+  - Clearly mark missing data as "not listed"
+  - Login-gated listings are acceptable — note this explicitly
+  - Broker contact info is valuable; include if visible
+  - Recently leased or "in contract" listings may be included as comps, labeled clearly
+
+---
+
+LISTING FORMAT (PLAIN TEXT ONLY — NO MARKDOWN)
+
+For each listing:
+
+---
+
+Address: [Street address if available, otherwise cross streets / general location]
+Neighborhood: [Area]
+Source: [LoopNet / Crexi / Broker site / Other]
+URL: [Direct public URL OR "Login required / verification needed"]
+Size: [Sq ft or "not listed"]
+Asking Rent: [Monthly and/or $/SF — or "not listed"]
+Key Features: [Basement, ceilings, prior use, ventilation, etc.]
+Wellness Fit Notes: [1–2 sentences on sauna/plunge feasibility]
+Confidence Level:
+  - High = direct URL + concrete details
+  - Medium = partial info or login wall
+  - Low = secondhand reference only
+
+---
+
+---
+
+AFTER SEARCHING — SUMMARY SECTION
+
+Provide a short synthesis covering:
+  - Total number of listings found
+  - Neighborhoods with the strongest inventory
+  - Most accessible / useful sources
+  - Observed pricing patterns (if any)
+  - Recommended next steps, such as:
+    - Specific brokers to contact
+    - Alerts or saved searches to set up
+    - Neighborhoods worth expanding search into next`;
 
 export class ScheduledSearch {
   private config: SearchConfig;
