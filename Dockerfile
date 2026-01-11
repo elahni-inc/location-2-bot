@@ -5,11 +5,11 @@ RUN useradd -m -s /bin/bash botuser
 
 WORKDIR /app
 
-# Install Claude Code CLI globally
-RUN npm install -g @anthropic-ai/claude-code
+# Install latest Claude Code CLI globally
+RUN npm install -g @anthropic-ai/claude-code@latest
 
-# Verify Claude Code is installed
-RUN claude --version || echo "Claude Code CLI installed"
+# Verify Claude Code is installed and show version
+RUN claude --version
 
 # Copy package files
 COPY package*.json ./
