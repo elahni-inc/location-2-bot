@@ -79,8 +79,10 @@ export class ScheduledSearch {
 
       for await (const message of query({
         prompt: SEARCH_PROMPT,
-        abortController,
-        options,
+        options: {
+          ...options,
+          abortController,
+        },
       })) {
         logger.info('Received message from Claude', { type: message.type, subtype: (message as any).subtype });
 

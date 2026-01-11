@@ -111,8 +111,10 @@ export class ClaudeHandler {
     try {
       for await (const message of query({
         prompt,
-        abortController: abortController || new AbortController(),
-        options,
+        options: {
+          ...options,
+          abortController: abortController || new AbortController(),
+        },
       })) {
         if (message.type === 'system' && message.subtype === 'init') {
           if (session) {
